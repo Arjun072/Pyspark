@@ -1,6 +1,0 @@
-Data = spark.read.text("file:///Users/Arjun/Desktop/story.txt")
-
-f=sc.textFile("file:///Users/Arjun/Desktop/story.txt")
-y=f.filter(lambda x: len(x)> 45)
-for z in y.collect():
-    print(z,(len(z)))
