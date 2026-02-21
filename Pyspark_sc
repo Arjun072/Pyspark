@@ -16,3 +16,24 @@ file = sc.textFile("file:///Users/Arjun/Desktop/story.txt")
 y=file.map(lambda x:len(x))
 for z in y.collect():
     print(z)
+
+Note: used Tuples here 
+
+# DBTITLE 1,SPARK CORE - Filter Transformation
+file1 = sc.textFile("dbfs:/FileStore/shared_uploads/gopal.ade2024@gmail.com/Input.log")
+mapfile = file1.map(lambda x: (x , len(x))) # Key = complete line , value = Length of line
+                                            # x[0]                , x[1]
+# filfile1 = mapfile.filter(lambda x: (len(x) >= 45))
+filfile1 = mapfile.filter(lambda x: (x[1] >= 45))
+for x in filfile1.collect(): print(x)
+
+
+Note: Used lists here
+
+# DBTITLE 1,SPARK CORE - Filter Transformation
+file1 = sc.textFile("file:///Users/Arjun/Desktop/story.txt")
+mapfile = file1.map(lambda x: [x , len(x)]) # Key = complete line , value = Length of line
+                                            # x[0]                , x[1]
+# filfile1 = mapfile.filter(lambda x: (len(x) >= 45))
+filfile1 = mapfile.filter(lambda x: [x[1] >= 45])
+for x in filfile1.collect(): print(x)
