@@ -44,3 +44,29 @@ fileobj = sc.textFile("file:///Users/Arjun/Desktop/story.txt")
 flatfileobj = fileobj.flatMap(lambda x: x.split(" "))
 print("COUNT:", flatfileobj.count())
 
+
+
+
+Union Transformation
+
+
+data1 = sc.textFile("file:///Users/Arjun/Desktop/coastal_station_14_log.txt")
+data2 = sc.textFile("file:///Users/Arjun/Desktop/deep_sea_station_09_log.txt")
+result = data1.union(data2) # union - is a Transformation ...unconditional joining
+for x in result.collect(): print(x)
+print("\n===============================\n")
+print("COUNT of Records : " , result.count())
+
+
+
+
+
+Filter Transformation:
+
+''''# DBTITLE 1,SPARK CORE - Filter Transforrmation
+filedata = sc.textFile("file:///Users/Arjun/Desktop/story.txt")
+filterdata = filedata.filter(lambda x: 'Ravi' in x)
+for x in filterdata.collect(): print(x)
+print("\n===============================\n")
+print("COUNT of Records : " , filterdata.count())'''
+
