@@ -37,3 +37,10 @@ mapfile = file1.map(lambda x: [x , len(x)]) # Key = complete line , value = Leng
 # filfile1 = mapfile.filter(lambda x: (len(x) >= 45))
 filfile1 = mapfile.filter(lambda x: [x[1] >= 45])
 for x in filfile1.collect(): print(x)
+
+
+
+fileobj = sc.textFile("file:///Users/Arjun/Desktop/story.txt")
+flatfileobj = fileobj.flatMap(lambda x: x.split(" "))
+print("COUNT:", flatfileobj.count())
+
