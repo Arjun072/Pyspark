@@ -20,7 +20,7 @@ for z in y.collect():
 Note: used Tuples here 
 
 # DBTITLE 1,SPARK CORE - Filter Transformation
-file1 = sc.textFile("dbfs:/FileStore/shared_uploads/gopal.ade2024@gmail.com/Input.log")
+file1 = sc.textFile("ile:///Users/Arjun/Desktop/story.txt")
 mapfile = file1.map(lambda x: (x , len(x))) # Key = complete line , value = Length of line
                                             # x[0]                , x[1]
 # filfile1 = mapfile.filter(lambda x: (len(x) >= 45))
