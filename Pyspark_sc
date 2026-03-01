@@ -70,3 +70,12 @@ for x in filterdata.collect(): print(x)
 print("\n===============================\n")
 print("COUNT of Records : " , filterdata.count())'''
 
+
+sortby Transformation
+
+file = sc.textFile("file:///Users/Arjun/Desktop/story.txt")
+flatfile = file.flatMap(lambda x: x.split(" ")) # getting individual words
+mapfile = flatfile.map(lambda x: (x,1)) # (word , 1)
+reddata = mapfile.reduceByKey(lambda x,y: x+y) # based on similar Keys , reducing the values using sum
+sortdata = reddata.sortBy(lambda x: x[0]) # Sorting the data based on Keys
+for x in sortdata.collect(): print(x)
