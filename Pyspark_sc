@@ -79,3 +79,15 @@ mapfile = flatfile.map(lambda x: (x,1)) # (word , 1)
 reddata = mapfile.reduceByKey(lambda x,y: x+y) # based on similar Keys , reducing the values using sum
 sortdata = reddata.sortBy(lambda x: x[0]) # Sorting the data based on Keys
 for x in sortdata.collect(): print(x)
+
+
+
+
+
+======================================
+
+data = [(1,"Alice"),(2,"Bob"),(3,"Sanjay"),(4,"Sneha")]
+columns = ("Employee_Id","Employee_Name")
+df=spark.createDataFrame(data,columns)
+for x in df.collect():
+    print({"id":["Employee_id"],"name":x ["Employee_Name"]})
