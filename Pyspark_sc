@@ -115,3 +115,28 @@ columns = ["Id","Name","Departement","Salary","DOJ"]
 df= spark.createDataFrame(data,columns)
 df.select(upper("Name")).show()
 df.select(lower("Departement")).show()
+
+
+
+
+=============================================
+
+
+
+
+from pyspark.sql.functions import *
+
+data = [(1,"Alice","Sales",50000,"2021-03-15"),
+        (2,"Bob","IT",70000,"2020-07-22"),
+        (3,"Charlie","Sales",60000,"2019-11-01"),
+        (4,"Diana","HR",45000,"2022-01-10"),
+        (5,"Eve","IT",80000,"2018-05-30"),
+        (6,"Frank","HR",47000,"2023-06-18"),
+        (None,"Ghost",None,None,None)]  
+columns = ["ID","Name","Department","Salary","DOJ"]
+
+
+df = spark.createDataFrame(data,columns)
+
+df.printSchema()     
+df.filter(df.Salary.isNull()).show()
