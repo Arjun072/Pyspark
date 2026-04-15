@@ -140,3 +140,19 @@ df = spark.createDataFrame(data,columns)
 
 df.printSchema()     
 df.filter(df.Salary.isNull()).show()
+
+
+
+==================================================
+
+
+
+from pyspark.sql import functions as F
+
+source_1 = spark.range(1,14).toDF("Bill")
+source_1.show(5,False)
+
+
+
+source_1.withColumn("Bill",F.col('Bill'))\
+    .withColumn("Bill*Bill",F.col('Bill')*F.col('Bill')).show(5)
