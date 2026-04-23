@@ -1,4 +1,7 @@
-
+References:
+Code reading practice:
+https://github.com/coder2j/pyspark-tutorial    (beginner Level )
+https://github.com/subhamkharwal/pyspark-zero-to-hero   (Core practice)
 
 # 🗺️ THE DEFINITIVE ROADMAP
 ### *For: SQL-Strong Data Analyst (5 yrs) → Data Engineer | No Python | No Rush*
