@@ -56,3 +56,33 @@ df = spark.createDataFrame(data,columns)
 df.select("Name","Departement","Salary")\
 .filter((col("Departement") == "IT") & (col("Salary")>60000))\
 .show()
+
+
+
+
+=============================================================================================
+
+
+
+from pyspark.sql.window import Window
+from pyspark.sql.functions import avg,col
+
+#paritionBy
+#avg
+#filter
+
+data = [
+    (1, "Alice", "Sales", 50000, "2021-03-15"),
+    (2, "Bob", "IT", 70000, "2020-07-22"),
+    (3, "Charlie", "Sales", 60000, "2019-11-01"),
+    (4, "Diana", "HR", 45000, "2022-01-10"),
+    (5, "Eve", "IT", 80000, "2018-05-30"),
+    (6, "Frank", "HR", 47000, "2023-06-18"),
+    (None, "Ghost", None, None, None),]
+
+columns = ["id","Name","Departement","Salary","JoinDate"]
+df= spark.createDataFrame(data,columns)
+x=Window.partitionBy("Departement")
+s_s=df.withColumn("Top_Salary",avg("Salary").over(x)).filter(col("Salary")> col("Top_Salary"))
+
+s_s.show()
