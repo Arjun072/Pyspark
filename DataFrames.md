@@ -86,3 +86,33 @@ x=Window.partitionBy("Departement")
 s_s=df.withColumn("Top_Salary",avg("Salary").over(x)).filter(col("Salary")> col("Top_Salary"))
 
 s_s.show()
+
+
+
+
+=================================================================================================
+
+
+
+
+from pyspark.sql import SparkSession
+
+spark = SparkSession.builder.appName("Dataprofiling").getOrCreate()
+
+data = [
+    (101, 2500.50, 5),
+    (102, 3200.75, 10),
+    (103, 1800.00, 2),
+    (104, None, 8)
+]
+
+# Define columns
+columns = ["customer_id", "transaction_amount", "reward_points"]
+
+# Create DataFrame
+df = spark.createDataFrame(data, columns)
+
+profile_desc = df.describe()
+
+
+profile_desc.show(truncate=False)
