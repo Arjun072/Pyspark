@@ -151,6 +151,8 @@ df.groupBy(
         sum("Hits").alias("total_Traffic")
         ).show()
 
+===========================================================
+Aggregate Total Hits
 
 from pyspark.sql.functions import col
 
