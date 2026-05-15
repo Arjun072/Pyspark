@@ -116,3 +116,26 @@ profile_desc = df.describe()
 
 
 profile_desc.show(truncate=False)
+
+
+
+===============================================================
+
+Categorize bloggers as High Traffic or Low Traffic
+
+
+
+from pyspark.sql.functions import col,when
+
+df=spark.read.format("json").load("dbfs:/databricks-datasets/learning-spark-v2/blogs.json")
+df.withColumn("Traffic_Category", when(col("Hits")>1000,"High")\
+    .otherwise("Low")).show(3)
+
+
+
+================================================================
+
+Show all unique marketing campaigns.
+
+df=spark.read.format("json").load("dbfs:/databricks-datasets/learning-spark-v2/blogs.json")
+df.select("Campaigns").distinct().show(truncate=False)
