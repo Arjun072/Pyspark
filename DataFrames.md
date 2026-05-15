@@ -139,3 +139,15 @@ Show all unique marketing campaigns.
 
 df=spark.read.format("json").load("dbfs:/databricks-datasets/learning-spark-v2/blogs.json")
 df.select("Campaigns").distinct().show(truncate=False)
+
+==============================================================
+
+Sort Top Bloggers
+
+
+
+from pyspark.sql.functions import col
+
+df=spark.read.format("json").load("dbfs:/databricks-datasets/learning-spark-v2/blogs.json")
+
+x=df.orderBy(col("Hits").desc()).show()
