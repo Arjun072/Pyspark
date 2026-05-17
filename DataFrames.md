@@ -159,3 +159,30 @@ from pyspark.sql.functions import col
 df=spark.read.format("json").load("dbfs:/databricks-datasets/learning-spark-v2/blogs.json")
 
 x=df.orderBy(col("Hits").desc()).show()
+
+
+
+
+==========================================================
+
+Add yearly bonus = 20% of salary.
+
+
+
+from pyspark.sql.functions import col
+
+df=spark.read.format("csv")\
+    .option("header",True)\
+    .option("inferschema",True)\
+    .option("delimiter",":")\
+    .load("dbfs:/databricks-datasets/learning-spark-v2/people/")
+
+x=df.select((col("salary")*0.2).alias("NewColumn"))
+x.show()
+
+
+
+
+
+
+
