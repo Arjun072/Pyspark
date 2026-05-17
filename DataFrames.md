@@ -180,9 +180,30 @@ df=spark.read.format("csv")\
 x=df.select((col("salary")*0.2).alias("NewColumn"))
 x.show()
 
+=================================================================================================
+###########################Create employee category##############################################
+
+##salary >= 90000	Executive
+#salary >= 70000	Senior
+#otherwise	Staff
+
+from pyspark.sql.functions import col,when
+
+df= spark.read.format("csv") \
+    .option("header",True) \
+    .option("inferschema",True) \
+    .option("delimiter",":") \
+    .load("dbfs:/databricks-datasets/learning-spark-v2/people/")
 
 
 
+x=df.withColumn("Category"
+                ,when (col("salary")>=90000,"Executive")
+                .when (col("salary")>=70000,"senior")
+                .otherwise ("staff")
+                  )
 
+
+x.select("salary","firstname","category").show()
 
 
