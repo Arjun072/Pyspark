@@ -206,4 +206,30 @@ x=df.withColumn("Category"
 
 x.select("salary","firstname","category").show()
 
+==================================================================================================
 
+###################Sort By Highest Employee Rank############################
+
+
+##salary >= 90000	Executive
+#salary >= 70000	Senior
+#otherwise	Staff
+
+from pyspark.sql.functions import col,when
+
+df= spark.read.format("csv") \
+    .option("header",True) \
+    .option("inferschema",True) \
+    .option("delimiter",":") \
+    .load("dbfs:/databricks-datasets/learning-spark-v2/people/")
+
+
+
+x=df.withColumn("Category"
+                ,when (col("salary")>=90000,"Executive")
+                .when (col("salary")>=70000,"senior")
+                .otherwise ("staff")
+                  )
+
+
+x.select("salary","firstname","category").orderBy(col("salary").desc()).show()
