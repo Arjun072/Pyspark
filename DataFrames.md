@@ -246,3 +246,23 @@ x=df.withColumn("Category"
 
 
 x.select("salary","firstname","category").orderBy(col("salary").desc()).show()
+
+
+===============================================================================
+
+                Count Total Employees by Gender
+from pyspark.sql.functions import count
+
+df= spark.read.format("csv")\
+    .option("header",True)\
+    .option("inferschema",True)\
+    .option("delimiter",":")\
+    .load("dbfs:/databricks-datasets/learning-spark-v2/people/")
+
+
+
+df.groupby("gender")\
+.agg(
+    count("*").alias("total_employees")
+)\
+    .show()
