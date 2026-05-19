@@ -1,3 +1,16 @@
+To know the format
+
+display(dbutils.fs.ls("dbfs:/databricks-datasets/learning-spark-v2/people/"))
+
+To know the delimiter
+
+df = spark.read.text("dbfs:/databricks-datasets/learning-spark-v2/people/")
+
+df.show(truncate = False)
+
+====================================================================================================================
+
+
 from pyspark.sql.functions import spark_partition_id,col
 
 
