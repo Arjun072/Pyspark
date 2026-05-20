@@ -266,3 +266,12 @@ df.groupby("gender")\
     count("*").alias("total_employees")
 )\
     .show()
+
+    =================================================================
+
+
+
+from pyspark.sql.functions import avg
+
+df.groupBy("gender")\
+    .agg(avg("salary").alias("AvgSalary")).show()
