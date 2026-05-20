@@ -275,3 +275,24 @@ from pyspark.sql.functions import avg
 
 df.groupBy("gender")\
     .agg(avg("salary").alias("AvgSalary")).show()
+
+
+=====================================================================
+
+                Multiple Aggregations Together
+
+
+from pyspark.sql.functions import count,avg,min,max
+
+df= spark.read.format("csv")\
+    .option("header",True)\
+    .option("inferschema",True)\
+    .option("delimiter",":")\
+    .load("dbfs:/databricks-datasets/learning-spark-v2/people/")
+
+y=df.groupby("gender")\
+    .agg(count("*").alias("total_employees")
+    ,(max("salary").alias("Max_Salary"))
+    ,(min("salary").alias("min_salary"))
+    ,(avg("salary").alias("avg_salary")))\
+    .show()
