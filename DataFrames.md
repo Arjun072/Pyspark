@@ -296,3 +296,14 @@ y=df.groupby("gender")\
     ,(min("salary").alias("min_salary"))
     ,(avg("salary").alias("avg_salary")))\
     .show()
+==========================================================================
+
+
+
+
+
+from pyspark.sql.functions import max
+
+df =  spark.read.format("json").load("dbfs:/databricks-datasets/learning-spark-v2/blogs.json")
+
+x=df.groupBy("Campaigns").agg(max("Hits").alias("max_Hits")).orderBy("max_Hits",ascending=False).show()
