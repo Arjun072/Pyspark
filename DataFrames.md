@@ -333,3 +333,56 @@ from pyspark.sql.functions import max
 df =  spark.read.format("json").load("dbfs:/databricks-datasets/learning-spark-v2/blogs.json")
 
 x=df.groupBy("Campaigns").agg(max("Hits").alias("max_Hits")).orderBy("max_Hits",ascending=False).show()
+
+
+=================================================================================================
+
+
+🔥 FULL OUTER JOIN — Real-Time Scenario
+🏢 Scenario:
+
+A company merged two systems:
+
+Old HR system
+New HR system
+
+Business wants:
+
+Show ALL employees and ALL departments
+even if data mismatch exists.
+
+
+Solution: 
+
+
+
+emp_data = [
+    (1, "Kamna", 101),
+    (2, "Rahul", 102),
+    (3, "Anjali", 103),
+    (4, "Vikram", 104)
+]
+
+emp_df=spark.createDataFrame(emp_data,["emp_id", "emp_name", "dept_id"])
+
+
+
+dept_data = [
+    (101, "HR"),
+    (102, "IT"),
+    (103, "Finance")
+]
+
+
+dept_df=spark.createDataFrame(dept_data,["dept_id", "dept_name"])
+
+x= emp_df.join(dept_df,emp_df.dept_id==dept_df.dept_id,"full")
+
+x.select("dept_name","emp_name").show()
+
+
+
+
+
+
+
