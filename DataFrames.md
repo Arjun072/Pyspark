@@ -429,4 +429,38 @@ x.show()
 
 
 
+============================================================================================================
+
+                how many employees belong to each department.
+
+
+from pyspark.sql.functions import count
+
+
+dept_data = [
+    (101, "HR"),
+    (102, "IT"),
+    (103, "Finance")
+]
+
+dept_df=spark.createDataFrame(dept_data,["dept_id", "dept_name"])
+
+
+emp_data = [
+    (1, "Kamna", 101),
+    (2, "Rahul", 102),
+    (3, "Anjali", 103),
+    (4, "Vikram", 104)
+]
+
+emp_df=spark.createDataFrame(emp_data,["emp_id", "emp_name", "dept_id"])
+
+x=emp_df.join(dept_df,emp_df.dept_id==dept_df.dept_id,"inner")
+
+x.groupby("dept_name").agg(count("emp_id").alias("Number")).show()
+
+
+
+
+
 
