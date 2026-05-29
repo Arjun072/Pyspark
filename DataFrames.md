@@ -461,6 +461,56 @@ x.groupby("dept_name").agg(count("emp_id").alias("Number")).show()
 
 
 
+=======================================================================================
+
+
+
+
+Question 1 — The Missing Department Problem
+Your HR manager says:
+"I want to see all departments and how many employees are in each. But I also want to see departments that currently have zero employees — those need to be flagged for review."
+
+Which join do you use and why?
+Write in SQL and PySpark DataFrame API
+Expected output should show department name, employee count, and departments with zero employees should show 0 not NULL
+
+
+
+
+from pyspark.sql.functions import count,aggregate
+
+emp_data = [
+    (1,  "Arjun Sharma",    10, "2021-03-15", 75000),
+    (2,  "Priya Mehta",     20, "2019-07-01", 92000),
+    (3,  "Ravi Kumar",      10, "2022-01-10", 61000),
+    (4,  "Sneha Reddy",     30, "2020-11-20", 85000),
+    (5,  "Karan Patel",     20, "2023-05-05", 54000),
+    (6,  "Divya Nair",      40, "2018-09-12", 110000),
+    (7,  "Manoj Iyer",      None, "2021-08-01", 67000),  # no department
+    (8,  "Anita Joshi",     30, "2022-06-30", 78000),
+]
+
+emp_schema = StructType([
+    StructField("emp_id",        IntegerType()),
+    StructField("emp_name",      StringType()),
+    StructField("dept_id",       IntegerType()),
+    StructField("joining_date",  StringType()),
+    StructField("salary",        IntegerType()),
+])
+
+emp_df = spark.createDataFrame(emp_data, emp_schema)
+emp_df.createOrReplaceTempView("employees")
+
+# --- DEPARTMENTS ---
+dept_data = [
+    (10, "Engineering",  "Bangalore"),
+    (20, "Data Science", "Hyderabad"),
+    (30, "Finance",      "Mumbai"),
+    (40, "HR",           "Delhi"),
+    (50, "Marketing",    "Pune"),     # no employees assigned
+]
+x= emp_df.join(dept_df,emp_df.dept_id==dept_df.dept_id,"right")
+x.groupby("dept_name").agg(count("emp_id").alias("emp_count")).show()
 
 
 
