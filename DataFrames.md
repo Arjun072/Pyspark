@@ -514,3 +514,32 @@ x.groupby("dept_name").agg(count("emp_id").alias("emp_count")).show()
 
 
 
+=========================================================================
+
+                Number of Unique Subjects Taught by Each Teacher
+
+
+
+from pyspark.sql.functions import countDistinct
+
+teacher_data = [
+    (1, 2, 3),
+    (1, 2, 4),
+    (1, 3, 3),
+    (2, 1, 1),
+    (2, 2, 1),
+    (2, 3, 1),
+    (2, 4, 1)
+]
+
+# Create DataFrame
+teacher_df = spark.createDataFrame(
+    teacher_data,
+    ["teacher_id", "subject_id", "dept_id"]
+)
+
+a=teacher_df.groupby("teacher_id").agg(countDistinct(("subject_id")).alias("Total_Subjects"))
+#y=a.groupby("teacher_id")
+
+a.show()
+
