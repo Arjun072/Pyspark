@@ -543,3 +543,60 @@ a=teacher_df.groupby("teacher_id").agg(countDistinct(("subject_id")).alias("Tota
 
 a.show()
 
+
+
+========================================================================================
+
+
+                User Activity for the Past 30 Days
+
+
+
+
+from pyspark.sql.functions import countDistinct,col
+
+activity_data = [
+    (1, 101, "2019-07-20", "open_session"),
+    (1, 101, "2019-07-20", "scroll_down"),
+    (1, 101, "2019-07-20", "send_message"),
+
+    (2, 102, "2019-07-20", "open_session"),
+
+    (3, 103, "2019-07-21", "open_session"),
+    (3, 103, "2019-07-21", "end_session"),
+
+    (1, 104, "2019-07-21", "open_session"),
+
+    (2, 105, "2019-07-22", "open_session"),
+    (2, 105, "2019-07-22", "scroll_down"),
+
+    (4, 106, "2019-07-22", "open_session"),
+
+    (5, 107, "2019-07-23", "open_session"),
+
+    (1, 108, "2019-07-24", "open_session"),
+    (2, 109, "2019-07-24", "open_session"),
+    (3, 110, "2019-07-24", "open_session"),
+
+    (1, 111, "2019-07-25", "open_session"),
+    (1, 111, "2019-07-25", "send_message"),
+
+    (6, 112, "2019-07-26", "open_session"),
+
+    (2, 113, "2019-07-27", "open_session"),
+    (3, 114, "2019-07-27", "open_session"),
+    (4, 115, "2019-07-27", "open_session"),
+
+    # Outside 30-day window (should be excluded)
+    (7, 116, "2019-06-20", "open_session"),
+    (8, 117, "2019-08-01", "open_session")
+]
+
+
+activity_df=spark.createDataFrame(activity_data ,["user_id", "session_id", "activity_date", "activity_type"])
+
+activity_df.show()
+
+x=activity_df.groupby("activity_date").agg(countDistinct("user_id").alias("User_count"))
+
+x.filter(col("activity_date").between("2019-06-28","2019-07-27")).show()
