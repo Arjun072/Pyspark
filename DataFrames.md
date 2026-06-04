@@ -652,4 +652,68 @@ x=visits_df.join(transactions_df,visits_df.visit_id==transactions_df.visit_id,"l
 
 
 
+=====================================================================================================
+
+                    Classes With at Least 5 Students
+
+
+from pyspark.sql.functions import count
+
+
+
+
+
+# Sample data
+
+courses_data = [
+
+    ("A", "Math"),
+
+    ("B", "English"),
+
+    ("C", "Math"),
+
+    ("D", "Biology"),
+
+    ("E", "Math"),
+
+    ("F", "Computer"),
+
+    ("G", "Math"),
+
+    ("H", "Math"),
+
+    ("I", "Math")
+
+]
+
+
+
+# Create DataFrame
+
+courses_df = spark.createDataFrame(
+
+    courses_data,
+
+    ["student", "class"]
+
+)
+
+
+
+
+
+#Logic: group all classes and count students and put filter where there are more than 5 students
+
+
+
+
+
+x = courses_df.groupBy("class").agg(count("student").alias ("Student_numbers")).filter("Student_numbers>=5")
+
+
+
+
+
+y=x.select("Student_numbers","class").show()
 
