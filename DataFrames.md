@@ -600,3 +600,56 @@ activity_df.show()
 x=activity_df.groupby("activity_date").agg(countDistinct("user_id").alias("User_count"))
 
 x.filter(col("activity_date").between("2019-06-28","2019-07-27")).show()
+
+
+
+===========================================================================================================
+                Customer Who Visited but Did Not Make Any Transactions
+
+
+from pyspark.sql.functions import count,col
+
+# customerid,number of visits
+# 
+
+# Create Visits DataFrame
+visits_data = [
+    (1, 23),
+    (2, 9),
+    (4, 30),
+    (5, 54),
+    (6, 96),
+    (7, 54),
+    (8, 54)
+]
+
+visits_df = spark.createDataFrame(
+    visits_data,
+    ["visit_id", "customer_id"]
+)
+
+# Create Transactions DataFrame
+transactions_data = [
+    (2, 5, 310),
+    (3, 5, 300),
+    (9, 5, 200),
+    (12, 1, 910),
+    (13, 2, 970)
+]
+
+transactions_df = spark.createDataFrame(
+    transactions_data,
+    ["transaction_id", "visit_id", "amount"]
+)
+
+
+
+x=visits_df.join(transactions_df,visits_df.visit_id==transactions_df.visit_id,"left").\
+    filter("transaction_id is NULL").\
+        groupby("customer_id").\
+            agg(count(visits_df.visit_id).alias("No_Trans_Visit")).show()
+
+
+
+
+
