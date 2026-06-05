@@ -23,3 +23,44 @@ Emp_df=spark.createDataFrame(employee_project_data,("employee_id", "project_id",
 #count on projects and group by employeeid
 
 x=Emp_df.groupBy("employee_id").agg(countDistinct("project_id").alias("Project_Cnt")).show()
+
+
+========================================================================================================
+
+
+
+
+
+
+
+
+                                                #Number of Unique Subjects Taught by Each Teacher#
+
+from pyspark.sql.functions import countDistinct,count
+# Sample data for Teacher table
+
+teacher_data = [
+    (1, 101, 10),
+    (1, 102, 10),
+    (1, 103, 20),
+
+    (2, 101, 10),
+    (2, 101, 20),  # Same subject in another department
+
+    (3, 104, 30),
+    (3, 105, 30),
+    (3, 106, 40),
+    (3, 107, 40),
+
+    (4, 108, 50),
+
+    (5, 109, 60),
+    (5, 109, 70),  # Same subject in another department
+    (5, 110, 60)
+]
+
+Teacher_Df=spark.createDataFrame(teacher_data,["teacher_id", "subject_id", "dept_id"])
+
+x= Teacher_Df.groupBy("teacher_id").agg(countDistinct("subject_id").alias("cnt")).show()
+
+
