@@ -1,1 +1,25 @@
 
+
+                                                #Number of Different Projects Per Employee#
+
+from pyspark.sql.functions import countDistinct
+# EmployeeProject Data
+employee_project_data = [
+    (1, 101, 10),
+    (1, 101, 20),
+    (1, 102, 10),
+    (2, 101, 10),
+    (2, 103, 20),
+    (2, 104, 30),
+    (3, 105, 40),
+    (3, 105, 50)
+]
+
+
+Emp_df=spark.createDataFrame(employee_project_data,("employee_id", "project_id", "team_id"))
+
+
+#Logic
+#count on projects and group by employeeid
+
+x=Emp_df.groupBy("employee_id").agg(countDistinct("project_id").alias("Project_Cnt")).show()
