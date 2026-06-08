@@ -717,3 +717,16 @@ x = courses_df.groupBy("class").agg(count("student").alias ("Student_numbers")).
 
 y=x.select("Student_numbers","class").show()
 
+
+
+=====================================================================================================
+
+                                calculated columns
+
+from pyspark.sql.functions import col, when
+
+df.withColumn("Salary_range",
+    when(col("salary") >= 60000, "High")
+    .when(col("salary") >= 50000, "Low")
+    .otherwise("medium")
+).show()
