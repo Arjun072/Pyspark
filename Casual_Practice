@@ -64,3 +64,40 @@ Teacher_Df=spark.createDataFrame(teacher_data,["teacher_id", "subject_id", "dept
 x= Teacher_Df.groupBy("teacher_id").agg(countDistinct("subject_id").alias("cnt")).show()
 
 
+
+
+=====================================================================================
+
+          product-sales-analysis-iii
+
+
+
+
+from pyspark.sql.functions import min
+
+#find all sales that occurred in the first year each product was sold.
+# product_id | first_year | quantity | price |
+
+sales_data = [
+    (1, 100, 2008, 10, 5000),
+    (2, 100, 2009, 12, 5000),
+    (7, 200, 2011, 15, 9000)
+]
+
+columns = ["sale_id", "product_id", "year", "quantity", "price"]
+
+sales_df=spark.createDataFrame(sales_data,columns)
+
+#calculate first year then match records of only that year with join then select
+
+
+first_year=sales_df.groupby("product_id").agg(min("year").alias("First_Year"))
+
+s= sales_df.alias("s")
+d= first_year.alias("d")
+
+Matching_df= s.join(d,(s.product_id==d.product_id)&(s.year==d.First_Year),"inner")
+
+Matching_df.select(s.product_id,d.First_Year,s.quantity,s.price).show()
+
+
