@@ -730,3 +730,20 @@ df.withColumn("Salary_range",
     .when(col("salary") >= 50000, "Low")
     .otherwise("medium")
 ).show()
+
+
+=======================================================================================================
+
+
+                        widgets
+        Find the Gender with first name and last name
+dbutils.widgets.text("Gender","male")
+Gender=dbutils.widgets.get("Gender")
+
+df=spark.read.format("csv")\
+    .option("header",True)\
+    .option("inferschema",True)\
+    .option("delimiter",":")\
+    .load("dbfs:/databricks-datasets/learning-spark-v2/people/")
+
+x=df.select("firstName","lastName","birthDate").filter(col("gender")==Gender).show()
