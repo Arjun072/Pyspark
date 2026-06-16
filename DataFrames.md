@@ -747,3 +747,48 @@ df=spark.read.format("csv")\
     .load("dbfs:/databricks-datasets/learning-spark-v2/people/")
 
 x=df.select("firstName","lastName","birthDate").filter(col("gender")==Gender).show()
+
+
+
+
+
+
+===================================================================================================
+
+
+            PySpark ETL: Employee Salary Band Classification with Delta Lake
+        #salary catergerizatin
+        #null handling
+
+
+
+from pyspark.sql.types import (
+    StructType, StructField,
+    IntegerType, StringType, DateType
+)
+
+from pyspark.sql.functions import col,when
+
+
+
+x=spark.table("people_delta").select(
+    "firstName",
+    "salary",
+    when(col("salary").isNull(), "salary_missing")
+    .when(col("salary") <= 50000, "low_salary")
+    .when ((col("salary")>50000) & (col("salary") < 60000), "medium_salary")
+    .when(col("salary") >= 60000, "high_salary")
+    .otherwise("unknown")
+    .alias("salary_category")                         
+).orderBy(col("salary").desc())
+
+
+
+x.write.format("delta")\
+    .mode("overwrite")\
+    .option("overwriteSchema","true")\
+    .saveAsTable("people_salary")
+
+
+spark.table("people_salary").show()
+
